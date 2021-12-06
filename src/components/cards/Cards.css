@@ -67,6 +67,7 @@
 
 .main-pic {
   object-fit: cover;
+  max-height: 370px;
   width: 100%;
 }
 
@@ -121,4 +122,10 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-pic {
+    max-height: 310px;
+  }
 }
