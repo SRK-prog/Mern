@@ -17,6 +17,7 @@ import axios from "axios";
 import Comments from "../../components/comments/Comments";
 import { HEROKU_URL } from "../../Heroku_Url";
 import NoPic from "../../noAvatar.png";
+import { useHistory } from "react-router-dom";
 
 export default function SinglePost() {
   const [post, setPost] = useState({});
@@ -34,6 +35,7 @@ export default function SinglePost() {
   // Comments Toggle Button
   const [commentsbtn, setCommentsbtn] = useState(false);
   const [newcomment, setNewcomment] = useState();
+  const history = useHistory();
 
   const CommentsToggle = () => {
     setCommentsbtn(!commentsbtn);
@@ -67,7 +69,7 @@ export default function SinglePost() {
       await axios.delete(`${HEROKU_URL}/posts/${id}`, {
         data: { username: user.username },
       });
-      window.location.replace("/");
+      history.push("/" + id);
     } catch (err) {}
   };
 
