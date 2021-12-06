@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { Close } from "@material-ui/icons";
 import axios from "axios";
 import { HEROKU_URL } from "../../Heroku_Url";
+import { useHistory } from "react-router-dom";
 
 export default function Register() {
   const [username, setusername] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [error, setError] = useState(false);
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ export default function Register() {
         email,
         password,
       });
-      res.data && window.location.replace("/login");
+      res.data && history.push("/login");
     } catch (err) {
       setError(true);
     }
