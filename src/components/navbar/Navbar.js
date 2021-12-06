@@ -109,26 +109,31 @@ export default function Navbar() {
                     onClick={clicktoggle}
                   />
                 </div>
-
-                <div className={`linktoggle ${profilebtn ? "active" : ""}`}>
-                  <ul className="linkList">
-                    <Link
-                      to={`/profile/${user.username}`}
-                      className="linkListprofile"
-                    >
-                      <div style={{ fontSize: "1.2rem" }}>{user.username}</div>
-                      <div style={{ fontSize: ".8rem" }}>@{user.username}</div>
-                    </Link>
-                    <Link to="/write" className="linkListItems">
-                      Create post
-                    </Link>
-                    <Link to="/settings" className="linkListItems">
-                      Settings
-                    </Link>
-                    <button className="linkListbtn" onClick={handlelogout}>
-                      Sign Out
-                    </button>
-                  </ul>
+                <div onClick={() => setProfilebtn(false)}>
+                  <div className={`linktoggle ${profilebtn ? "active" : ""}`}>
+                    <ul className="linkList">
+                      <Link
+                        to={`/profile/${user.username}`}
+                        className="linkListprofile"
+                      >
+                        <div style={{ fontSize: "1.2rem" }}>
+                          {user.username}
+                        </div>
+                        <div style={{ fontSize: ".8rem" }}>
+                          @{user.username}
+                        </div>
+                      </Link>
+                      <Link to="/write" className="linkListItems">
+                        Create post
+                      </Link>
+                      <Link to="/settings" className="linkListItems">
+                        Settings
+                      </Link>
+                      <button className="linkListbtn" onClick={handlelogout}>
+                        Sign Out
+                      </button>
+                    </ul>
+                  </div>
                 </div>
               </OutsideClickHandler>
             </div>

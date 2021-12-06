@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { TextField } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { format } from "timeago.js";
-import Image from "../home/images/247141.jpg";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import ModeCommentOutlinedIcon from "@material-ui/icons/ModeCommentOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
@@ -17,6 +16,7 @@ import { useLocation } from "react-router";
 import axios from "axios";
 import Comments from "../../components/comments/Comments";
 import { HEROKU_URL } from "../../Heroku_Url";
+import NoPic from "../../noAvatar.png";
 
 export default function SinglePost() {
   const [post, setPost] = useState({});
@@ -99,7 +99,11 @@ export default function SinglePost() {
           <div className="sprofile-container">
             <Link to={`/profile/${post.username}`} className="simg-name-box">
               <div>
-                <img className="sprofile-img" src={Image} alt="Dp" />
+                <img
+                  className="sprofile-img"
+                  src={user.profilepicture ? user.profilepicture : NoPic}
+                  alt=""
+                />
               </div>
               <div className="sNameDate">
                 <div className="spostUserdate">{post.username}</div>
