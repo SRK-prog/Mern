@@ -1,6 +1,6 @@
 import "./about.css";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Image from "./netflix.png";
+import Image from "./MyImg.jpeg";
 import { Link } from "react-router-dom";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -17,7 +17,7 @@ export default function About() {
           <div className="AboutMyprofileContainer">
             <img src={Image} alt="" className="AboutMyImg" />
             <div className="AboutMyprpFlexbox">
-              <Link to="/about" className="AboutMyProBtn">
+              <Link to="/profile/siva" className="AboutMyProBtn">
                 Profile
               </Link>
             </div>

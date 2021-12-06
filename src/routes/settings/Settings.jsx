@@ -6,6 +6,7 @@ import { Context } from "../../context/Context";
 import axios from "axios";
 import NoPic from "../../noAvatar.png";
 import { HEROKU_URL } from "../../Heroku_Url";
+import { useHistory } from "react-router-dom";
 
 export default function Settings() {
   const { user, dispatch } = useContext(Context);
@@ -14,6 +15,7 @@ export default function Settings() {
   const [city, setCity] = useState(user.city);
   const [email, setEmail] = useState(user.email);
   const [propic, setPropicurl] = useState("");
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ export default function Settings() {
         HEROKU_URL + "/users/" + user._id,
         updatedUser
       );
-      res.data && window.location.replace("/login");
+      res.data && history.push("/login");
     } catch (err) {
       dispatch({ type: "UPDATE_FAILURE" });
     }

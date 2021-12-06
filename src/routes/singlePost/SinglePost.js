@@ -84,13 +84,10 @@ export default function SinglePost() {
 
   const handlecommentSubmit = async () => {
     try {
-      await axios.put(
-        `${HEROKU_URL}/posts/${id}/comment`,
-        {
-          comments: [{ comment: newcomment, userId: user.username }],
-        }
-        // window.location.reload(false)
-      );
+      await axios.put(`${HEROKU_URL}/posts/${id}/comment`, {
+        comments: [{ comment: newcomment, userId: user.username }],
+      });
+      window.location.reload(false);
     } catch (err) {}
   };
 
