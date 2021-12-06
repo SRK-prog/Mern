@@ -1,7 +1,7 @@
 import "./App.css";
 import Home from "./routes/home/Home";
 import Navbar from "./components/navbar/Navbar";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import SinglePost from "./routes/singlePost/SinglePost";
 import Register from "./routes/register/Register";
 import Login from "./routes/login/Login";
@@ -20,7 +20,7 @@ function App() {
   const { user } = useContext(Context);
 
   return (
-    <Router>
+    <HashRouter>
       <div>
         <Navbar />
       </div>
@@ -54,7 +54,7 @@ function App() {
           <About />
         </Route>
       </Switch>
-    </Router>
+    </HashRouter>
   );
 }
 
