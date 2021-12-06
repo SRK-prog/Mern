@@ -103,7 +103,7 @@ export default function SinglePost() {
               <div>
                 <img
                   className="sprofile-img"
-                  src={user.profilepicture ? user.profilepicture : NoPic}
+                  src={post.profilepicture ? post.profilepicture : NoPic}
                   alt=""
                 />
               </div>
