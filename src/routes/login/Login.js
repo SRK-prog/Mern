@@ -8,29 +8,32 @@ import axios from "axios";
 import { HEROKU_URL } from "../../Heroku_Url";
 
 export default function Login() {
-  const [username, setusername] = useState("");
+  const [emails, setusername] = useState("");
   const [password, setpassword] = useState("");
-  const [error, setError] = useState(false);
-
+  const [error, setError] = useState([
+    {
+      error: false,
+      message: "",
+    },
+  ]);
   const { dispatch, isFetching } = useContext(Context);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError(false);
-
+    const email = emails.toLowerCase();
     dispatch({ type: "LOGIN_START" });
-    try {
-      const res = await axios.post(HEROKU_URL + "/auth/login", {
-        username,
+    axios
+      .post(HEROKU_URL + "/auth/login", {
+        email,
         password,
+      })
+      .then((response) => {
+        dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
+        response && window.location.replace("/");
+      })
+      .catch((error) => {
+        setError({ error: true, message: error.response.data });
+        dispatch({ type: "LOGIN_FAILURE" });
       });
-
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
-      res.data && window.location.replace("/");
-    } catch (err) {
-      dispatch({ type: "LOGIN_FAILURE" });
-      setError(true);
-    }
   };
 
   return (
@@ -47,10 +50,11 @@ export default function Login() {
 
           <div className="text-box">
             <TextField
-              type="name"
+              type="email"
               id="label"
-              label="Name"
+              label="Email"
               fullWidth
+              required
               variant="outlined"
               onChange={(e) => setusername(e.target.value)}
             />
@@ -60,6 +64,7 @@ export default function Login() {
               type="password"
               id="textarea"
               fullWidth
+              required
               label="Password"
               variant="outlined"
               onChange={(e) => setpassword(e.target.value)}
@@ -76,11 +81,7 @@ export default function Login() {
               Login
             </Button>
           </div>
-          {error && (
-            <div className="error-msg">
-              The username or password is incorrect
-            </div>
-          )}
+          {error && <div className="error-msg">{error.message}</div>}
           <div className="text-box">
             Don't have account<Link to="/signup"> Sign Up</Link>
           </div>

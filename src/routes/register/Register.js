@@ -9,14 +9,17 @@ import { useHistory } from "react-router-dom";
 
 export default function Register() {
   const [username, setusername] = useState("");
-  const [email, setemail] = useState("");
+  const [emails, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [error, setError] = useState(false);
+  const [disable, setDisable] = useState(false);
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const email = emails.toLowerCase();
     setError(false);
+    setDisable(true);
     try {
       const res = await axios.post(HEROKU_URL + "/auth/signup", {
         username,
@@ -25,6 +28,7 @@ export default function Register() {
       });
       res.data && history.push("/login");
     } catch (err) {
+      setDisable(false);
       setError(true);
     }
   };
@@ -46,6 +50,7 @@ export default function Register() {
               id="label"
               label="Name"
               fullWidth
+              required
               variant="outlined"
               onChange={(e) => setusername(e.target.value)}
             />
@@ -55,6 +60,7 @@ export default function Register() {
               type="email"
               id="email"
               fullWidth
+              required
               label="Email"
               variant="outlined"
               onChange={(e) => setemail(e.target.value)}
@@ -64,6 +70,7 @@ export default function Register() {
             <TextField
               type="password"
               id="password"
+              required
               fullWidth
               label="Password"
               variant="outlined"
@@ -80,6 +87,7 @@ export default function Register() {
               type="submit"
               variant="contained"
               fullWidth
+              disabled={disable}
               style={{ color: "white", backgroundColor: "#3a8fde" }}
             >
               Confirm
