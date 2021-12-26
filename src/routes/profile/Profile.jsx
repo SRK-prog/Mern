@@ -20,6 +20,7 @@ export default function Profile() {
   const [name, setName] = useState();
   const [city, setCity] = useState();
   const [time, setTime] = useState();
+  const [Isfollowing, setIsfollowing] = useState();
   const [picture, setPicture] = useState();
   const [userposts, setUserposts] = useState([]);
   const location = useLocation();
@@ -34,13 +35,15 @@ export default function Profile() {
         userId: currentUser._id,
       });
       if (!isfollowed) {
-        try {
-          axios.post(HEROKU_URL + "/conversations", {
-            senderId: currentUser._id,
-            receiverId: id,
-          });
-        } catch (err) {}
-      } else {
+        if (!Isfollowing) {
+          try {
+            axios.post(HEROKU_URL + "/conversations", {
+              senderId: currentUser._id,
+              receiverId: id,
+            });
+          } catch (err) {}
+        }
+      } else if (!Isfollowing) {
         axios.delete(
           `${HEROKU_URL}/conversations/delete/${currentUser._id}/${id}`
         );
@@ -63,6 +66,7 @@ export default function Profile() {
       setfollow(res.data.followers.length);
       setfollowings(res.data.followings.length);
       setId(res.data._id);
+      setIsfollowing(res.data.followings.includes(currentUser._id));
       setIsfollowed(res.data.followers.includes(currentUser._id));
     };
     fetchUser();
@@ -132,10 +136,12 @@ export default function Profile() {
                           </span>
                         ) : (
                           <span
-                            className="followbutton"
+                            className={
+                              !Isfollowing ? "followbutton" : "followbackbutton"
+                            }
                             onClick={followHandler}
                           >
-                            Follow
+                            {Isfollowing ? "FollowBack" : "Follow"}
                           </span>
                         )}
                       </div>
