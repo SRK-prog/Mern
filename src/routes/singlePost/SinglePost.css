@@ -51,6 +51,7 @@
 
 .smain-pic {
   object-fit: cover;
+  max-height: 370px;
   width: 100%;
 }
 
