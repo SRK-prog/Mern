@@ -26,27 +26,45 @@
   align-items: center;
 }
 
+.InputWriteImger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding-top: 8px;
+  color: rgb(77, 74, 74);
+  font-weight: 900;
+  margin-left: 15px;
+}
+
 .SuccessMsg {
   margin-left: 10px;
+  padding-top: 8px;
   color: rgb(6, 175, 6);
 }
 
 .LoadingMsg {
   margin-left: 10px;
+  padding-top: 8px;
+}
+
+.LoadingMsg {
+  animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-359deg);
+  }
 }
 
 .FailedMsg {
   margin-left: 10px;
+  padding-top: 8px;
   color: red;
-}
-
-.InputWriteImg {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  color: rgb(77, 74, 74);
-  font-weight: 900;
-  margin-left: 15px;
 }
 
 .writetext-box {
@@ -67,7 +85,7 @@
   margin-right: 20px;
   font-size: 0.8rem;
   border-radius: 5px;
-  background-color: rgb(47, 224, 255);
+  background-color: rgba(55, 145, 248, 0.918);
 }
 
 .Writepost-btn {
@@ -77,17 +95,17 @@
   outline: none;
   border: none;
   border-radius: 5px;
-  background-color: rgb(47, 224, 255);
+  background-color: rgba(55, 145, 248, 0.918);
 }
 
 .Writepost-btn:hover {
-  background-color: rgb(2, 175, 206);
+  background-color: rgba(17, 127, 252, 0.918);
 }
 .linkback:hover {
-  background-color: rgb(2, 175, 206);
+  background-color: rgba(17, 127, 252, 0.918);
 }
 
-.InputWriteImg:hover {
+.InputWriteImger:hover {
   color: rgb(87, 177, 238);
 }
 

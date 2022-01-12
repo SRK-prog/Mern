@@ -83,22 +83,21 @@ export default function Write() {
                   }}
                 />
               </>
-
-              <label htmlFor="INPUTFILE" className="InputWriteImg">
+              <label htmlFor="INPUTFILE" className="InputWriteImger">
                 <ImageIcon />
                 Upload Image
+                {loading.success && (
+                  <span className="SuccessMsg">
+                    <DoneIcon />
+                  </span>
+                )}
+                {loading.load && (
+                  <span className="LoadingMsg">
+                    <CachedIcon />
+                  </span>
+                )}
+                {loading.fail && <span className="FailedMsg">Failed!</span>}
               </label>
-              {loading.success && (
-                <span className="SuccessMsg">
-                  <DoneIcon />
-                </span>
-              )}
-              {loading.load && (
-                <span className="LoadingMsg">
-                  <CachedIcon />
-                </span>
-              )}
-              {loading.fail && <span className="FailedMsg">Failed!</span>}
             </div>
             <div className="writetext-box">
               <TextField
