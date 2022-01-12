@@ -89,6 +89,7 @@ export default function Navbar() {
                     ) {
                       return val;
                     }
+                    return false;
                   })
                   .map((val, key) => {
                     return (
@@ -217,6 +218,7 @@ export default function Navbar() {
                       ) {
                         return val;
                       }
+                      return false;
                     })
                     .map((val, key) => {
                       return (
