@@ -10,6 +10,7 @@ import Userpostitems from "./userposts/Userpostitems";
 import { Link } from "react-router-dom";
 import { HEROKU_URL } from "../../Heroku_Url";
 import NoPic from "../../noAvatar.png";
+import { useHistory } from "react-router-dom";
 
 export default function Profile() {
   const [follow, setfollow] = useState([]);
@@ -27,6 +28,7 @@ export default function Profile() {
   const path = location.pathname.split("/")[2];
   const Url = HEROKU_URL + "/posts/profile/";
   const { user: currentUser } = useContext(Context);
+  const history = useHistory();
 
   // Follow Feature
   const followHandler = () => {
@@ -71,6 +73,12 @@ export default function Profile() {
     };
     fetchUser();
   }, [path, currentUser._id]);
+
+  useEffect(() => {
+    axios.get(`${HEROKU_URL}/users/${path}`).catch(() => {
+      history.push("/error404");
+    });
+  }, [path, history]);
 
   // Fetching user posts
 
