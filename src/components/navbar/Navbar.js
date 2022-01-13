@@ -38,7 +38,7 @@ export default function Navbar() {
   };
 
   const handleclear = () => {
-    setSearchterm();
+    setSearchterm("");
   };
 
   const { user, dispatch } = useContext(Context);
@@ -74,6 +74,7 @@ export default function Navbar() {
               placeholder="Search..."
               className="searchInput"
               onClick={searchhandle}
+              value={searchterm}
               onChange={(e) => {
                 setSearchterm(e.target.value.toLowerCase());
               }}
