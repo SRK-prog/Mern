@@ -37,10 +37,6 @@ export default function Navbar() {
     setSearchdata(res.data);
   };
 
-  const handleclear = () => {
-    setSearchterm();
-  };
-
   const { user, dispatch } = useContext(Context);
   const handlelogout = () => {
     dispatch({ type: "LOGOUT" });
@@ -73,6 +69,7 @@ export default function Navbar() {
             <input
               placeholder="Search..."
               className="searchInput"
+              value={searchterm || ""}
               onClick={searchhandle}
               onChange={(e) => {
                 setSearchterm(e.target.value.toLowerCase());
@@ -97,7 +94,9 @@ export default function Navbar() {
                         className="searchNameLinks"
                         to={`/profile/${val.username}`}
                         key={key}
-                        onClick={handleclear}
+                        onClick={() => {
+                          setSearchterm("");
+                        }}
                       >
                         {val.username}
                       </Link>
@@ -196,6 +195,7 @@ export default function Navbar() {
                   type="text"
                   className="SearchPopUpInput"
                   placeholder="Search..."
+                  value={searchterm || ""}
                   onClick={searchhandle}
                   onChange={(e) => {
                     setSearchterm(e.target.value.toLowerCase());
@@ -226,7 +226,10 @@ export default function Navbar() {
                           className="searchNameLinks responsive"
                           to={`/profile/${val.username}`}
                           key={key}
-                          onClick={handleclear}
+                          onClick={() => {
+                            setSearchterm("");
+                            setSearchbox(false);
+                          }}
                         >
                           {val.username}
                         </Link>

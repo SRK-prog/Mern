@@ -2,7 +2,7 @@ import "./profile.css";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import RoomIcon from "@material-ui/icons/Room";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
 import { useLocation } from "react-router";
@@ -29,6 +29,9 @@ export default function Profile() {
   const Url = HEROKU_URL + "/posts/profile/";
   const { user: currentUser } = useContext(Context);
   const history = useHistory();
+  const myRef = useRef(null);
+  const executeScroll = () => scrollToRef(myRef);
+  const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   // Follow Feature
   const followHandler = () => {
@@ -110,7 +113,11 @@ export default function Profile() {
             <div className="FollowFlex">
               <span className="FollowFlexBox"></span>
               <span className="FollowCounts">
-                <span className="Follows">
+                <span
+                  onClick={executeScroll}
+                  className="Follows"
+                  style={{ cursor: "pointer" }}
+                >
                   <div className="CountsTitles">Posts</div>{" "}
                   <div className="CountsOf">{userposts.length}</div>
                 </span>
@@ -187,7 +194,7 @@ export default function Profile() {
           </div>
         </div>
         <div className="ProfilePostWrapper">
-          <div className="ProfilePosts">
+          <div ref={myRef} className="ProfilePosts">
             {userposts
               .slice(0)
               .reverse()

@@ -76,7 +76,7 @@ export default function Chatapp() {
           <div className={`chatMenu ${!currentChat && "ChatmenuActive"}`}>
             <div className="chatMenuWrapper">
               {conversations.map((c) => (
-                <div onClick={() => setCurrentChat(c)}>
+                <div key={c._id} onClick={() => setCurrentChat(c)}>
                   <Conversation conversation={c} currentUser={user} />
                 </div>
               ))}
@@ -103,12 +103,12 @@ export default function Chatapp() {
                     ))}
                   </div>
                   <div className="chatBoxBottom">
-                    <textarea
+                    <input
                       className="chatMessageInput"
                       placeholder="Message..."
                       onChange={(e) => setNewMessage(e.target.value)}
                       value={newMessage}
-                    ></textarea>
+                    ></input>
                     <button className="chatSubmitButton" onClick={handleSubmit}>
                       Send
                     </button>
