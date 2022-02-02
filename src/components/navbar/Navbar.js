@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
@@ -17,7 +17,8 @@ export default function Navbar() {
   const [profilebtn, setProfilebtn] = useState(false);
   const [navmenu, setNavmenu] = useState(false);
   const [search, setSearchbox] = useState(false);
-  const [searchterm, setSearchterm] = useState();
+  const [searchterm, setSearchterm] = useState("");
+  // const [debouncedterm, setDebouncedterm] = useState("");
   const [searchdata, setSearchdata] = useState([]);
 
   const searchboxtoggle = () => {
@@ -32,10 +33,26 @@ export default function Navbar() {
     setProfilebtn(!profilebtn);
   };
 
-  const searchhandle = async () => {
-    const res = await axios.get(HEROKU_URL + "/search");
-    setSearchdata(res.data);
-  };
+  // useEffect(() => {
+  //   setDebouncedterm(searchterm);
+  // }, [searchterm]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const fetchUser = async () => {
+        const { data } = await axios.get(HEROKU_URL + "/search", {
+          params: {
+            username: searchterm,
+          },
+        });
+        setSearchdata(data);
+      };
+      fetchUser();
+    }, 500);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [searchterm]);
 
   const { user, dispatch } = useContext(Context);
   const handlelogout = () => {
@@ -69,39 +86,23 @@ export default function Navbar() {
             <input
               placeholder="Search..."
               className="searchInput"
-              value={searchterm || ""}
-              onClick={searchhandle}
+              value={searchterm}
+              // onClick={searchhandle}
               onChange={(e) => {
                 setSearchterm(e.target.value.toLowerCase());
               }}
             />
             {searchterm && (
               <div className="searchNameLinksCon">
-                {searchdata
-                  .filter((val) => {
-                    if (searchterm === "") {
-                      return val;
-                    } else if (
-                      val.username.toLowerCase().includes(searchterm)
-                    ) {
-                      return val;
-                    }
-                    return false;
-                  })
-                  .map((val, key) => {
-                    return (
-                      <Link
-                        className="searchNameLinks"
-                        to={`/profile/${val.username}`}
-                        key={key}
-                        onClick={() => {
-                          setSearchterm("");
-                        }}
-                      >
-                        {val.username}
-                      </Link>
-                    );
-                  })}
+                {searchdata.map((name) => (
+                  <Link
+                    onClick={() => setSearchterm("")}
+                    className="searchNameLinks"
+                    to={`/profile/${name}`}
+                  >
+                    {name}
+                  </Link>
+                ))}
               </div>
             )}
           </div>
@@ -195,8 +196,8 @@ export default function Navbar() {
                   type="text"
                   className="SearchPopUpInput"
                   placeholder="Search..."
-                  value={searchterm || ""}
-                  onClick={searchhandle}
+                  value={searchterm}
+                  // onClick={searchhandle}
                   onChange={(e) => {
                     setSearchterm(e.target.value.toLowerCase());
                   }}
@@ -208,33 +209,19 @@ export default function Navbar() {
             </div>
             <div>
               {searchterm && (
-                <div className="searchNameLinksContainer">
-                  {searchdata
-                    .filter((val) => {
-                      if (searchterm === "") {
-                        return val;
-                      } else if (
-                        val.username.toLowerCase().includes(searchterm)
-                      ) {
-                        return val;
-                      }
-                      return false;
-                    })
-                    .map((val, key) => {
-                      return (
-                        <Link
-                          className="searchNameLinks responsive"
-                          to={`/profile/${val.username}`}
-                          key={key}
-                          onClick={() => {
-                            setSearchterm("");
-                            setSearchbox(false);
-                          }}
-                        >
-                          {val.username}
-                        </Link>
-                      );
-                    })}
+                <div className="searchNameLinksCon">
+                  {searchdata.map((name) => (
+                    <Link
+                      className="searchNameLinks responsive"
+                      onClick={() => {
+                        setSearchterm("");
+                        setSearchbox(false);
+                      }}
+                      to={`/profile/${name}`}
+                    >
+                      {name}
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>

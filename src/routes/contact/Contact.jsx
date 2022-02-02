@@ -1,6 +1,6 @@
 import { TextField, Button } from "@material-ui/core";
 import "./contact.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Close } from "@material-ui/icons";
 import axios from "axios";
@@ -10,6 +10,10 @@ export default function Contact() {
   const [sendername, setSendername] = useState("");
   const [senderemail, setSenderemail] = useState("");
   const [message, setmessage] = useState("");
+
+  useEffect(() => {
+    document.title = "Contact";
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

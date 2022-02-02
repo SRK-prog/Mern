@@ -33,6 +33,10 @@ export default function Profile() {
   const executeScroll = () => scrollToRef(myRef);
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
+  useEffect(() => {
+    document.title = `${name} | Mern`;
+  }, [name]);
+
   // Follow Feature
   const followHandler = () => {
     try {

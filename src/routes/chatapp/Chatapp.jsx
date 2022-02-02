@@ -17,6 +17,10 @@ export default function Chatapp() {
   const scrollRef = useRef();
 
   useEffect(() => {
+    document.title = "Chat | Mern";
+  }, []);
+
+  useEffect(() => {
     const getConversations = async () => {
       try {
         const res = await axios.get(HEROKU_URL + "/conversations/" + user._id);

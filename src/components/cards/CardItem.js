@@ -14,13 +14,19 @@ import NoPic from "../../noAvatar.png";
 const CardItem = ({ post }) => {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
-  const [userprof, setUserProf] = useState({});
+  const [userprof, setUserProf] = useState("");
+  const [ProName, setProName] = useState("");
   const { user: currentUser } = useContext(Context);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`${HEROKU_URL}/users?userId=${post.userId}`);
-      setUserProf(res.data.profilepicture);
+      const { data } = await axios.get(`${HEROKU_URL}/users`, {
+        params: {
+          userId: post.userId,
+        },
+      });
+      setUserProf(data.profilepicture);
+      setProName(data.username);
     };
     fetchUser();
   }, [post.userId]);
@@ -42,7 +48,7 @@ const CardItem = ({ post }) => {
   return (
     <div className="main-container">
       <div className="profile-container">
-        <Link to={`/profile/${post.username}`} className="img-name-box">
+        <Link to={`/profile/${ProName}`} className="img-name-box">
           <div>
             <img
               className="profile-img"

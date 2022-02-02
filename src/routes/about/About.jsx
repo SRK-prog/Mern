@@ -6,8 +6,12 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import InstagramIcon from "@material-ui/icons/Instagram";
+import { useEffect } from "react";
 
 export default function About() {
+  useEffect(() => {
+    document.title = "Mern - about";
+  }, []);
   return (
     <div className="AboutFlexBox">
       <Sidebar />

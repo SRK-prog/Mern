@@ -1,7 +1,7 @@
 import "./Settings.css";
 import { Button, TextField } from "@material-ui/core";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
 import NoPic from "../../noAvatar.png";
@@ -16,6 +16,10 @@ export default function Settings() {
   const [email, setEmail] = useState(user.email);
   const [propic, setPropicurl] = useState("");
   const history = useHistory();
+
+  useEffect(() => {
+    document.title = "settings";
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

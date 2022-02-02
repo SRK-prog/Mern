@@ -16,6 +16,10 @@ function Home() {
   const { search } = useLocation();
 
   useEffect(() => {
+    document.title = "Mern";
+  }, []);
+
+  useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios.get(HEROKU_URL + "/posts" + search, {
         mode: "cors",

@@ -3,7 +3,7 @@ import "./Login.css";
 import { Context } from "../../context/Context";
 import { Link } from "react-router-dom";
 import { Close } from "@material-ui/icons";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { HEROKU_URL } from "../../Heroku_Url";
 
@@ -16,6 +16,10 @@ export default function Login() {
       message: "",
     },
   ]);
+  useEffect(() => {
+    document.title = "Mern - Login";
+  }, []);
+
   const { dispatch, isFetching } = useContext(Context);
   const handleSubmit = (e) => {
     e.preventDefault();

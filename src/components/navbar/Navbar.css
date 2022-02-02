@@ -330,6 +330,10 @@
   .display_none {
     display: none;
   }
+  .searchNameLinksCon {
+    top: 60px;
+    margin: 0 0 0 0;
+  }
   .noneInLarge {
     display: block;
   }

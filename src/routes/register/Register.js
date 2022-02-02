@@ -1,6 +1,6 @@
 import { TextField, Button } from "@material-ui/core";
 import "./Register.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Close } from "@material-ui/icons";
 import axios from "axios";
@@ -14,7 +14,9 @@ export default function Register() {
   const [error, setError] = useState(false);
   const [disable, setDisable] = useState(false);
   const history = useHistory();
-
+  useEffect(() => {
+    document.title = "Mern - Sign up";
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = emails.toLowerCase();
