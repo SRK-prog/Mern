@@ -14,6 +14,10 @@ function Frndsfeed() {
   const FrndspostUrl = HEROKU_URL + "/posts/timeline/";
 
   useEffect(() => {
+    document.title = "Mern | Post";
+  }, []);
+
+  useEffect(() => {
     const fetchPostFrnds = async () => {
       await axios.get(FrndspostUrl + user._id).then((res) => {
         setPostFrnds(res.data);
