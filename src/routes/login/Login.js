@@ -28,12 +28,12 @@ export default function Login() {
       email,
       password,
     })
-      .then((response) => {
-        dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
-        response && window.location.replace("/");
+      .then(({ data }) => {
+        dispatch({ type: "LOGIN_SUCCESS", payload: data });
+        data && window.location.replace("/");
       })
       .catch((error) => {
-        setError({ error: true, message: error.response.data });
+        setError({ error: true, message: error.data });
         dispatch({ type: "LOGIN_FAILURE" });
       });
   };
