@@ -1,13 +1,13 @@
+import { HashRouter, Switch, Route } from "react-router-dom";
+import { useContext } from "react";
 import "./App.css";
 import Home from "./routes/home/Home";
 import Navbar from "./components/navbar/Navbar";
-import { HashRouter, Switch, Route } from "react-router-dom";
 import SinglePost from "./routes/singlePost/SinglePost";
 import Register from "./routes/register/Register";
 import Login from "./routes/login/Login";
 import Write from "./routes/write/Write";
 import { Context } from "./context/Context";
-import { useContext } from "react";
 import Profile from "./routes/profile/Profile";
 import Settings from "./routes/settings/Settings";
 import Frndsfeed from "./routes/frndsfeed/Frndsfeed";
@@ -25,34 +25,24 @@ function App() {
         <Navbar />
       </div>
       <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/signup">
-          <Register />
-        </Route>
-        <Route path="/write">{user ? <Write /> : <Register />}</Route>
-        <Route path="/postdetails/:postId">
-          {user ? <SinglePost /> : <Register />}
-        </Route>
-        <Route path="/profile/:username">
-          {user ? <Profile /> : <Register />}
-        </Route>
-        <Route path="/feeds">{user ? <Frndsfeed /> : <Register />}</Route>
-        <Route path="/settings">{user ? <Settings /> : <Register />}</Route>
-        <Route path="/error404">
-          <Error404 />
-        </Route>
-        <Route path="/chat">{user ? <Chatapp /> : <Register />}</Route>
-        <Route path="/contact">
-          <Contact />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
+        <Route exact path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Register} />
+        <Route path="/write" component={user ? Write : Register} />
+        <Route
+          path="/postdetails/:postId"
+          component={user ? SinglePost : Register}
+        />
+        <Route
+          path="/profile/:username"
+          component={user ? Profile : Register}
+        />
+        <Route path="/feeds" component={user ? Frndsfeed : Register} />
+        <Route path="/settings" component={user ? Settings : Register} />
+        <Route path="/error404" component={Error404} />
+        <Route path="/chat" component={user ? Chatapp : Register} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/about" component={About} />
       </Switch>
     </HashRouter>
   );

@@ -4,8 +4,7 @@ import Conversation from "../../components/conversations/Conversation";
 import Message from "../../components/message/Message";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../../context/Context";
-import { HEROKU_URL } from "../../Heroku_Url";
-import axios from "axios";
+import BASE_URL from "../../api/URL";
 
 export default function Chatapp() {
   const [conversations, setConversations] = useState([]);
@@ -23,7 +22,7 @@ export default function Chatapp() {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const res = await axios.get(HEROKU_URL + "/conversations/" + user._id);
+        const res = await BASE_URL.get("/conversations/" + user._id);
         setConversations(res.data);
       } catch (err) {
         console.log(err);
@@ -34,9 +33,7 @@ export default function Chatapp() {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get(
-          HEROKU_URL + "/messages/" + currentChat?._id
-        );
+        const res = await BASE_URL.get("/messages/" + currentChat?._id);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -54,8 +51,8 @@ export default function Chatapp() {
     };
 
     try {
-      const res = await axios.post(HEROKU_URL + "/messages", message);
-      setMessages([...messages, res.data]);
+      const { data } = await BASE_URL.post("/messages", message);
+      setMessages([...messages, data]);
       setNewMessage("");
     } catch (err) {
       console.log(err);

@@ -1,23 +1,23 @@
-import "./SinglePost.css";
-import Sidebar from "../../components/sidebar/Sidebar";
 import { Link } from "react-router-dom";
 import { TextField } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { format } from "timeago.js";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import ModeCommentOutlinedIcon from "@material-ui/icons/ModeCommentOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
+import { format } from "timeago.js";
 import MoreVertIcon from "@material-ui/icons//MoreVert";
 import { useContext, useEffect, useState } from "react";
-import { Context } from "../../context/Context";
+import { useLocation } from "react-router";
 import SendIcon from "@material-ui/icons/Send";
 import Button from "@material-ui/core/Button";
-import { useLocation } from "react-router";
-import axios from "axios";
-import Comments from "../../components/comments/Comments";
-import { HEROKU_URL } from "../../Heroku_Url";
-import NoPic from "../../noAvatar.png";
 import { useHistory } from "react-router-dom";
+
+import "./SinglePost.css";
+import Sidebar from "../../components/sidebar/Sidebar";
+import { Context } from "../../context/Context";
+import Comments from "../../components/comments/Comments";
+import BASE_URL from "../../api/URL";
+import NoPic from "../../noAvatar.png";
 
 export default function SinglePost() {
   const [post, setPost] = useState({});
@@ -42,7 +42,7 @@ export default function SinglePost() {
   };
   const likeHandler = () => {
     try {
-      axios.put(HEROKU_URL + "/posts/" + id + "/like", {
+      BASE_URL.put("/posts/" + id + "/like", {
         userId: currentUser._id,
       });
     } catch (err) {}
@@ -52,7 +52,7 @@ export default function SinglePost() {
 
   useEffect(() => {
     const getPost = async () => {
-      const res = await axios.get(HEROKU_URL + "/posts/" + path);
+      const res = await BASE_URL.get("/posts/" + path);
       setComments(res.data.comments);
       setPost(res.data);
       setTitle(res.data.title);
@@ -66,7 +66,7 @@ export default function SinglePost() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${HEROKU_URL}/posts/${id}`, {
+      await BASE_URL.delete(`/posts/${id}`, {
         data: { username: user.username },
       });
       history.push("/" + id);
@@ -75,7 +75,7 @@ export default function SinglePost() {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`${HEROKU_URL}/posts/${id}`, {
+      await BASE_URL.put(`/posts/${id}`, {
         username: user.username,
         title,
         desc,
@@ -86,7 +86,7 @@ export default function SinglePost() {
 
   const handlecommentSubmit = async () => {
     try {
-      await axios.put(`${HEROKU_URL}/posts/${id}/comment`, {
+      await BASE_URL.put(`/posts/${id}/comment`, {
         comments: [{ comment: newcomment, userId: user.username }],
       });
       window.location.reload(false);

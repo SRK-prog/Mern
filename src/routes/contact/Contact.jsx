@@ -1,10 +1,9 @@
 import { TextField, Button } from "@material-ui/core";
-import "./contact.css";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Close } from "@material-ui/icons";
-import axios from "axios";
-import { HEROKU_URL } from "../../Heroku_Url";
+import { Link } from "react-router-dom";
+import "./contact.css";
+import BASE_URL from "../../api/URL";
 
 export default function Contact() {
   const [sendername, setSendername] = useState("");
@@ -23,7 +22,7 @@ export default function Contact() {
       message,
     };
     try {
-      const res = await axios.post(HEROKU_URL + "/mail", newmail);
+      const res = await BASE_URL.post("/mail", newmail);
       window.location.replace("/");
       console.log(res.data);
     } catch (err) {

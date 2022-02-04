@@ -5,7 +5,7 @@ import { useContext, useState, useEffect } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
 import NoPic from "../../noAvatar.png";
-import { HEROKU_URL } from "../../Heroku_Url";
+import BASE_URL from "../../api/URL";
 import { useHistory } from "react-router-dom";
 
 export default function Settings() {
@@ -33,10 +33,7 @@ export default function Settings() {
       city,
     };
     try {
-      const res = await axios.put(
-        HEROKU_URL + "/users/" + user._id,
-        updatedUser
-      );
+      const res = await BASE_URL.put("/users/" + user._id, updatedUser);
       res.data && history.push("/login");
     } catch (err) {
       dispatch({ type: "UPDATE_FAILURE" });

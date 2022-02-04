@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import Frndspost from "../../components/frndspost/Frndspost";
+import { useContext } from "react";
+import Cards from "../../components/cards/Cards";
 import "./Frndspost.css";
-import axios from "axios";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Rightbox from "../../components/rightbox/Rightbox";
 import { Context } from "../../context/Context";
-import { useContext } from "react";
-import { HEROKU_URL } from "../../Heroku_Url";
+import BASE_URL from "../../api/URL";
 
 function Frndsfeed() {
   const { user } = useContext(Context);
-  const [postFrnds, setPostFrnds] = useState([]);
-  const FrndspostUrl = HEROKU_URL + "/posts/timeline/";
+  const [posts, setPostFrnds] = useState([]);
 
   useEffect(() => {
     document.title = "Mern | Post";
@@ -19,18 +17,18 @@ function Frndsfeed() {
 
   useEffect(() => {
     const fetchPostFrnds = async () => {
-      await axios.get(FrndspostUrl + user._id).then((res) => {
-        setPostFrnds(res.data);
+      await BASE_URL.get("/posts/timeline/" + user._id).then(({ data }) => {
+        setPostFrnds(data);
       });
     };
     fetchPostFrnds();
-  }, [FrndspostUrl, user._id]);
+  }, [user._id]);
 
   return (
     <>
       <div className="FrndsfeedFlex">
         <Sidebar />
-        <Frndspost postFrnds={postFrnds} />
+        <Cards posts={posts} />
         <Rightbox />
       </div>
     </>

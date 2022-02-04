@@ -4,8 +4,7 @@ import { Context } from "../../context/Context";
 import { Link } from "react-router-dom";
 import { Close } from "@material-ui/icons";
 import { useContext, useState, useEffect } from "react";
-import axios from "axios";
-import { HEROKU_URL } from "../../Heroku_Url";
+import BASE_URL from "../../api/URL";
 
 export default function Login() {
   const [emails, setusername] = useState("");
@@ -25,11 +24,10 @@ export default function Login() {
     e.preventDefault();
     const email = emails.toLowerCase();
     dispatch({ type: "LOGIN_START" });
-    axios
-      .post(HEROKU_URL + "/auth/login", {
-        email,
-        password,
-      })
+    BASE_URL.post("/auth/login", {
+      email,
+      password,
+    })
       .then((response) => {
         dispatch({ type: "LOGIN_SUCCESS", payload: response.data });
         response && window.location.replace("/");

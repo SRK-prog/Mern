@@ -8,7 +8,7 @@ import DoneIcon from "@material-ui/icons/Done";
 import CachedIcon from "@material-ui/icons/Cached";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { Link } from "react-router-dom";
-import { HEROKU_URL } from "../../Heroku_Url";
+import BASE_URL from "../../api/URL";
 
 export default function Write() {
   const [title, setTitle] = useState("");
@@ -25,7 +25,6 @@ export default function Write() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const newPost = {
       userId: user._id,
       username: user.username,
@@ -34,7 +33,7 @@ export default function Write() {
       desc,
     };
     try {
-      await axios.post(HEROKU_URL + "/posts", newPost);
+      await BASE_URL.post("/posts", newPost);
       window.location.replace("/");
     } catch (err) {
       console.log(err);

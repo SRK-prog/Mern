@@ -26,9 +26,7 @@ function Cards({ posts }) {
       {posts
         .slice(0)
         .reverse()
-        .map((p) => (
-          <CardItem post={p} key={p._id} />
-        ))}
+        .map((p) => (p === null ? "" : <CardItem post={p} key={p._id} />))}
     </div>
   );
 }

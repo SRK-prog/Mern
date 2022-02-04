@@ -3,8 +3,7 @@ import "./Register.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Close } from "@material-ui/icons";
-import axios from "axios";
-import { HEROKU_URL } from "../../Heroku_Url";
+import BASE_URL from "../../api/URL";
 import { useHistory } from "react-router-dom";
 
 export default function Register() {
@@ -23,7 +22,7 @@ export default function Register() {
     setError(false);
     setDisable(true);
     try {
-      const res = await axios.post(HEROKU_URL + "/auth/signup", {
+      const res = await BASE_URL.post("/auth/signup", {
         username,
         email,
         password,

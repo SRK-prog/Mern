@@ -1,18 +1,18 @@
-import "./profile.css";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import RoomIcon from "@material-ui/icons/Room";
-import Sidebar from "../../components/sidebar/Sidebar";
 import { useContext, useEffect, useState, useRef } from "react";
-import { Context } from "../../context/Context";
-import axios from "axios";
-import { useLocation } from "react-router";
-import Userpostitems from "./userposts/Userpostitems";
 import { Link } from "react-router-dom";
-import { HEROKU_URL } from "../../Heroku_Url";
+import { useLocation } from "react-router";
+import "./profile.css";
+import Sidebar from "../../components/sidebar/Sidebar";
+import { Context } from "../../context/Context";
+import Userpostitems from "./userposts/Userpostitems";
 import NoPic from "../../noAvatar.png";
 import { useHistory } from "react-router-dom";
+import BASE_URL from "../../api/URL";
 
 export default function Profile() {
+  const [details, setProfileDetails] = useState({});
   const [follow, setfollow] = useState([]);
   const [id, setId] = useState();
   const [isfollowed, setIsfollowed] = useState(false);
@@ -26,7 +26,6 @@ export default function Profile() {
   const [userposts, setUserposts] = useState([]);
   const location = useLocation();
   const path = location.pathname.split("/")[2];
-  const Url = HEROKU_URL + "/posts/profile/";
   const { user: currentUser } = useContext(Context);
   const history = useHistory();
   const myRef = useRef(null);
@@ -34,28 +33,26 @@ export default function Profile() {
   const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
   useEffect(() => {
-    document.title = `${name} | Mern`;
+    document.title = name ? `${name} | Mern` : "Profile | Mern";
   }, [name]);
 
   // Follow Feature
   const followHandler = () => {
     try {
-      axios.put(HEROKU_URL + "/users/" + id + "/follow", {
+      BASE_URL.put("/users/" + id + "/follow", {
         userId: currentUser._id,
       });
       if (!isfollowed) {
         if (!Isfollowing) {
           try {
-            axios.post(HEROKU_URL + "/conversations", {
+            BASE_URL.post("/conversations", {
               senderId: currentUser._id,
               receiverId: id,
             });
           } catch (err) {}
         }
       } else if (!Isfollowing) {
-        axios.delete(
-          `${HEROKU_URL}/conversations/delete/${currentUser._id}/${id}`
-        );
+        BASE_URL.delete(`/conversations/delete/${currentUser._id}/${id}`);
       }
     } catch (err) {}
     setfollow(isfollowed ? follow - 1 : follow + 1);
@@ -64,39 +61,53 @@ export default function Profile() {
 
   // Fetching users data
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const res = await axios.get(`${HEROKU_URL}/users/${path}`);
-      setName(res.data.username);
-      setdesc(res.data.desc);
-      setCity(res.data.city);
-      setTime(res.data.createdAt);
-      setPicture(res.data.profilepicture);
-      setfollow(res.data.followers.length);
-      setfollowings(res.data.followings.length);
-      setId(res.data._id);
-      setIsfollowing(res.data.followings.includes(currentUser._id));
-      setIsfollowed(res.data.followers.includes(currentUser._id));
-    };
-    fetchUser();
-  }, [path, currentUser._id]);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const res = await BASE_URL.get(`/users/${path}`);
+  //     // setName(res.data.username);
+  //     setdesc(res.data.desc);
+  //     setCity(res.data.city);
+  //     setTime(res.data.createdAt);
+  //     setPicture(res.data.profilepicture);
+  //     setfollow(res.data.followers.length);
+  //     setfollowings(res.data.followings.length);
+  //     setId(res.data._id);
+  //     setIsfollowing(res.data.followings.includes(currentUser._id));
+  //     setIsfollowed(res.data.followers.includes(currentUser._id));
+  //   };
+  //   fetchUser();
+  // }, [path, currentUser._id]);
 
   useEffect(() => {
-    axios.get(`${HEROKU_URL}/users/${path}`).catch(() => {
-      history.push("/error404");
-    });
-  }, [path, history]);
+    BASE_URL.get(`/users/${path}`)
+      .then(({ data }) => {
+        setProfileDetails(data);
+        setName(data.username);
+        setdesc(data.desc);
+        setCity(data.city);
+        setTime(data.createdAt);
+        setPicture(data.profilepicture);
+        setfollow(data.followers.length);
+        setfollowings(data.followings.length);
+        setId(data._id);
+        setIsfollowing(data.followings.includes(currentUser._id));
+        setIsfollowed(data.followers.includes(currentUser._id));
+        console.log(data);
+      })
+      .catch(() => {
+        history.push("/error404");
+      });
+  }, [path, history, currentUser._id]);
 
   // Fetching user posts
-
   useEffect(() => {
     const response = async () => {
-      await axios.get(Url + path).then((res) => {
-        setUserposts(res.data);
+      await BASE_URL.get("/posts/profile/" + path).then(({ data }) => {
+        setUserposts(data);
       });
     };
     response();
-  }, [path, Url]);
+  }, [path]);
 
   return (
     <div className="ProfileFlexBox">
@@ -138,8 +149,8 @@ export default function Profile() {
             </div>
             <div className="UserInfo">
               <div className="UserName">
-                <h2>{name}</h2>
-                <p>@{name}</p>
+                <h2>{details?.username}</h2>
+                <p>@{details?.username}</p>
               </div>
               <div className="BtnWrper">
                 <div className="BtnSection">

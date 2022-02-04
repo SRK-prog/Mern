@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import Cards from "../../components/cards/Cards";
 import "./home.css";
 import { useLocation } from "react-router";
-import axios from "axios";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Rightbox from "../../components/rightbox/Rightbox";
 import Nonuser from "../../components/nonuser/Nonuser";
 import { Context } from "../../context/Context";
 import { useContext } from "react";
-import { HEROKU_URL } from "../../Heroku_Url";
+import BASE_URL from "../../api/URL";
 
 function Home() {
   const { user } = useContext(Context);
@@ -21,10 +20,10 @@ function Home() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await axios.get(HEROKU_URL + "/posts" + search, {
+      const { data } = await BASE_URL.get("/posts" + search, {
         mode: "cors",
       });
-      setPosts(res.data);
+      setPosts(data);
     };
     fetchPosts();
   }, [search]);
