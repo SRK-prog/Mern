@@ -6,6 +6,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Rightbox from "../../components/rightbox/Rightbox";
 import { Context } from "../../context/Context";
 import BASE_URL from "../../api/URL";
+import Skeleton from "../../components/Skeleton/Skeleton";
 
 function Frndsfeed() {
   const { user } = useContext(Context);
@@ -28,7 +29,22 @@ function Frndsfeed() {
     <>
       <div className="FrndsfeedFlex">
         <Sidebar />
-        <Cards posts={posts} />
+        {posts.length === 0 ? (
+          <>
+            <div
+              style={{ display: "flex", flexDirection: "column", flex: "6" }}
+            >
+              {[1, 2, 3, 4, 5].map(() => (
+                <Skeleton />
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            {" "}
+            <Cards posts={posts} />{" "}
+          </>
+        )}
         <Rightbox />
       </div>
     </>

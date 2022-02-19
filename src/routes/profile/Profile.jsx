@@ -3,13 +3,13 @@ import RoomIcon from "@material-ui/icons/Room";
 import { useContext, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
+import { useHistory } from "react-router-dom";
 import "./profile.css";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { Context } from "../../context/Context";
-import Userpostitems from "./userposts/Userpostitems";
 import NoPic from "../../noAvatar.png";
-import { useHistory } from "react-router-dom";
 import BASE_URL from "../../api/URL";
+import Cards from "../../components/cards/Cards";
 
 export default function Profile() {
   const [details, setProfileDetails] = useState({});
@@ -23,7 +23,7 @@ export default function Profile() {
   const [time, setTime] = useState();
   const [Isfollowing, setIsfollowing] = useState();
   const [picture, setPicture] = useState();
-  const [userposts, setUserposts] = useState([]);
+  const [posts, setUserposts] = useState([]);
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const { user: currentUser } = useContext(Context);
@@ -92,7 +92,6 @@ export default function Profile() {
         setId(data._id);
         setIsfollowing(data.followings.includes(currentUser._id));
         setIsfollowed(data.followers.includes(currentUser._id));
-        console.log(data);
       })
       .catch(() => {
         history.push("/error404");
@@ -134,7 +133,7 @@ export default function Profile() {
                   style={{ cursor: "pointer" }}
                 >
                   <div className="CountsTitles">Posts</div>{" "}
-                  <div className="CountsOf">{userposts.length}</div>
+                  <div className="CountsOf">{posts.length}</div>
                 </span>
                 <span className="Follows">
                   <div className="CountsTitles">Followers</div>{" "}
@@ -210,12 +209,7 @@ export default function Profile() {
         </div>
         <div className="ProfilePostWrapper">
           <div ref={myRef} className="ProfilePosts">
-            {userposts
-              .slice(0)
-              .reverse()
-              .map((p) => (
-                <Userpostitems key={p._id} post={p} />
-              ))}
+            {posts && <Cards NoLink={true} posts={posts} />}
           </div>
         </div>
       </div>

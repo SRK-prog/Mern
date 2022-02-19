@@ -1,28 +1,12 @@
 import React from "react";
 import "./Cards.css";
 import CardItem from "../../components/cards/CardItem";
-import { NavLink } from "react-router-dom";
+import Navlinks from "./Navlinks";
 
-function Cards({ posts }) {
+function Cards({ posts, NoLink }) {
   return (
     <div className="cardss">
-      <div className="CardsNavLink">
-        <NavLink
-          className="CardsNavLinks"
-          exact
-          to="/"
-          activeClassName="ActiveLink"
-        >
-          Feed
-        </NavLink>
-        <NavLink
-          className="CardsNavLinks"
-          to="/feeds"
-          activeClassName="ActiveLinkFeed"
-        >
-          Post
-        </NavLink>
-      </div>
+      {!NoLink && <Navlinks />}
       {posts
         .slice(0)
         .reverse()

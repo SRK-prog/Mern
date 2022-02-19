@@ -8,6 +8,7 @@ import Nonuser from "../../components/nonuser/Nonuser";
 import { Context } from "../../context/Context";
 import { useContext } from "react";
 import BASE_URL from "../../api/URL";
+import Skeleton from "../../components/Skeleton/Skeleton";
 
 function Home() {
   const { user } = useContext(Context);
@@ -31,7 +32,19 @@ function Home() {
     <>
       <div className="homeFlex">
         <Sidebar />
-        {user ? <Cards posts={posts} /> : <Nonuser posts={posts} />}
+        {posts.length === 0 ? (
+          <>
+            <div
+              style={{ display: "flex", flexDirection: "column", flex: "6" }}
+            >
+              {[1, 2, 3, 4, 5].map(() => (
+                <Skeleton />
+              ))}
+            </div>
+          </>
+        ) : (
+          <>{user ? <Cards posts={posts} /> : <Nonuser posts={posts} />}</>
+        )}
         <Rightbox />
       </div>
     </>
