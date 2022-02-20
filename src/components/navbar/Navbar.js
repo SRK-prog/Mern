@@ -71,7 +71,15 @@ export default function Navbar() {
           </OutsideClickHandler>
 
           <Link to="/" className="logo">
-            Mern
+            <span>M</span>
+            <span className="LogoLists">
+              <div className="LogoList">
+                <h1>ern</h1>
+              </div>
+              <div className="LogoList">
+                <h1>edia</h1>
+              </div>
+            </span>
           </Link>
         </div>
         <div className="topbarCenter">

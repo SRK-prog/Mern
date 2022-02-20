@@ -44,6 +44,17 @@
   background-color: black;
   padding: 3px 7px;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.LogoList {
+  font-size: 6px;
+  /* font-weight: 800; */
+}
+
+.LogoLists {
+  line-height: 10px;
 }
 
 .topbarCenter {
