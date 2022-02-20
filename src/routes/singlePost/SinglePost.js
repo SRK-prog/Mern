@@ -32,6 +32,7 @@ export default function SinglePost() {
   const [id, setId] = useState();
   const [updateMode, setUpdateMode] = useState(false);
   const [comments, setComments] = useState([]);
+
   // Comments Toggle Button
   const [commentsbtn, setCommentsbtn] = useState(true);
   const [newcomment, setNewcomment] = useState();

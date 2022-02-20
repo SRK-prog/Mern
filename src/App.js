@@ -1,6 +1,5 @@
 import { HashRouter, Switch, Route } from "react-router-dom";
 import { useContext } from "react";
-import "./App.css";
 import Home from "./routes/home/Home";
 import Navbar from "./components/navbar/Navbar";
 import SinglePost from "./routes/singlePost/SinglePost";

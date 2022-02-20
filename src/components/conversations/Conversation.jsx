@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import "./conversation.css";
-import { HEROKU_URL } from "../../Heroku_Url";
 import NoPic from "../../noAvatar.png";
+import BASE_URL from "../../api/URL";
 
 export default function Conversation({ conversation, currentUser }) {
   const [user, setUser] = useState([]);
@@ -11,7 +10,7 @@ export default function Conversation({ conversation, currentUser }) {
     const friendId = conversation.members.find((m) => m !== currentUser._id);
     const getUser = async () => {
       try {
-        const res = await axios(HEROKU_URL + "/users?userId=" + friendId);
+        const res = await BASE_URL.get("/users?userId=" + friendId);
         setUser(res.data);
       } catch (err) {
         console.log(err);

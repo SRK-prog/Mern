@@ -8,8 +8,8 @@ import { Context } from "../../../context/Context";
 import { useContext, useState, useEffect } from "react";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import axios from "axios";
-import { HEROKU_URL } from "../../../Heroku_Url";
 import NoPic from "../../../noAvatar.png";
+import BASE_URL from "../../../api/URL";
 
 const CardItem = ({ post }) => {
   const [like, setLike] = useState(post.likes.length);
@@ -23,7 +23,7 @@ const CardItem = ({ post }) => {
 
   const likeHandler = () => {
     try {
-      axios.put(HEROKU_URL + "/posts/" + post._id + "/like", {
+      BASE_URL.put("/posts/" + post._id + "/like", {
         userId: currentUser._id,
       });
     } catch (err) {}
@@ -33,7 +33,7 @@ const CardItem = ({ post }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`${HEROKU_URL}/users?userId=${post.userId}`);
+      const res = await BASE_URL.get(`/users?userId=${post.userId}`);
       setUserProf(res.data.profilepicture);
     };
     fetchUser();

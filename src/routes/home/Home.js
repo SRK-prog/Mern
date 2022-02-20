@@ -1,54 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import Cards from "../../components/cards/Cards";
 import "./home.css";
-import { useLocation } from "react-router";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Rightbox from "../../components/rightbox/Rightbox";
 import Nonuser from "../../components/nonuser/Nonuser";
 import { Context } from "../../context/Context";
 import { useContext } from "react";
-import BASE_URL from "../../api/URL";
 import Skeleton from "../../components/Skeleton/Skeleton";
+import { fetchPosts } from "../../redux/actions";
 
-function Home() {
+function Home({ posts, fetchPosts }) {
   const { user } = useContext(Context);
-  const [posts, setPosts] = useState([]);
-  const { search } = useLocation();
 
   useEffect(() => {
     document.title = "Mern";
   }, []);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const { data } = await BASE_URL.get("/posts" + search, {
-        mode: "cors",
-      });
-      setPosts(data);
-    };
     fetchPosts();
-  }, [search]);
+  }, [fetchPosts]);
+
   return (
-    <>
-      <div className="homeFlex">
-        <Sidebar />
-        {posts.length === 0 ? (
-          <>
-            <div
-              style={{ display: "flex", flexDirection: "column", flex: "6" }}
-            >
-              {[1, 2, 3, 4, 5].map(() => (
-                <Skeleton />
-              ))}
-            </div>
-          </>
-        ) : (
-          <>{user ? <Cards posts={posts} /> : <Nonuser posts={posts} />}</>
-        )}
-        <Rightbox />
-      </div>
-    </>
+    <div className="homeFlex">
+      <Sidebar />
+      {posts.length === 0 ? (
+        <>
+          <div style={{ display: "flex", flexDirection: "column", flex: "6" }}>
+            {[1, 2, 3, 4, 5].map((k) => (
+              <Skeleton key={k} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <>{user ? <Cards posts={posts} /> : <Nonuser posts={posts} />}</>
+      )}
+      <Rightbox />
+    </div>
   );
 }
+const mapStateToProps = (state) => {
+  return { posts: state.posts };
+};
 
-export default Home;
+export default connect(mapStateToProps, { fetchPosts })(Home);
+
+// {
+//  <>
+// <div className="homeFlex">
+//   <Sidebar />
+//   {props.posts ? (
+//     <>
+//       <div
+//         style={{ display: "flex", flexDirection: "column", flex: "6" }}
+//       >
+//         {[1, 2, 3, 4, 5].map(() => (
+//           <Skeleton />
+//         ))}
+//       </div>
+//     </>
+//   ) : (
+//     <>
+//       {user ? <Cards posts={props.posts} /> : <Nonuser posts={posts} />}
+//     </>
+//   )}
+//   <Rightbox />
+// </div>
+// </>
+// }

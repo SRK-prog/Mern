@@ -60,24 +60,6 @@ export default function Profile() {
   };
 
   // Fetching users data
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const res = await BASE_URL.get(`/users/${path}`);
-  //     // setName(res.data.username);
-  //     setdesc(res.data.desc);
-  //     setCity(res.data.city);
-  //     setTime(res.data.createdAt);
-  //     setPicture(res.data.profilepicture);
-  //     setfollow(res.data.followers.length);
-  //     setfollowings(res.data.followings.length);
-  //     setId(res.data._id);
-  //     setIsfollowing(res.data.followings.includes(currentUser._id));
-  //     setIsfollowed(res.data.followers.includes(currentUser._id));
-  //   };
-  //   fetchUser();
-  // }, [path, currentUser._id]);
-
   useEffect(() => {
     BASE_URL.get(`/users/${path}`)
       .then(({ data }) => {

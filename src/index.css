@@ -1,6 +1,9 @@
-body {
+* {
   margin: 0;
-  font-family: 'Open Sans', sans-serif, Arial, Helvetica;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Open Sans", sans-serif, Arial, Helvetica;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

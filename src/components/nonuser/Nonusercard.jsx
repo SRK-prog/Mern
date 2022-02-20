@@ -3,21 +3,15 @@ import { format } from "timeago.js";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import ModeCommentOutlinedIcon from "@material-ui/icons/ModeCommentOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { HEROKU_URL } from "../../Heroku_Url";
+import { connect } from "react-redux";
+import { useEffect } from "react";
 import NoPic from "../../noAvatar.png";
+import { fetchUser } from "../../redux/actions";
 
-const Nonusercard = ({ post }) => {
-  const [userprof, setUserProf] = useState({});
-
+const Nonusercard = ({ post, fetchUser, userInfo }) => {
   useEffect(() => {
-    const fetchUser = async () => {
-      const res = await axios.get(`${HEROKU_URL}/users?userId=${post.userId}`);
-      setUserProf(res.data.profilepicture);
-    };
-    fetchUser();
-  }, [post.userId]);
+    fetchUser(post.userId);
+  }, [fetchUser, post.userId]);
 
   return (
     <div className="Nonmain-container">
@@ -26,7 +20,7 @@ const Nonusercard = ({ post }) => {
           <div>
             <img
               className="Nonprofile-img"
-              src={userprof ? userprof : NoPic}
+              src={userInfo?.profilepicture ? userInfo?.profilepicture : NoPic}
               alt=""
             />
           </div>
@@ -64,4 +58,10 @@ const Nonusercard = ({ post }) => {
   );
 };
 
-export default Nonusercard;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    userInfo: state.user.find((user) => user._id === ownProps.post.userId),
+  };
+};
+
+export default connect(mapStateToProps, { fetchUser })(Nonusercard);

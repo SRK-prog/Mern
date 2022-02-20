@@ -1,4 +1,5 @@
 import "./Cards.css";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { format } from "timeago.js";
 import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
@@ -7,29 +8,18 @@ import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import { Context } from "../../context/Context";
 import { useContext, useState, useEffect } from "react";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import axios from "axios";
-import { HEROKU_URL } from "../../Heroku_Url";
 import NoPic from "../../noAvatar.png";
+import BASE_URL from "../../api/URL";
+import { fetchUser } from "../../redux/actions";
 
-const CardItem = ({ post }) => {
+const CardItem = ({ post, fetchUser, userInfo }) => {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
-  const [userprof, setUserProf] = useState("");
-  const [ProName, setProName] = useState("");
   const { user: currentUser } = useContext(Context);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const { data } = await axios.get(`${HEROKU_URL}/users`, {
-        params: {
-          userId: post.userId,
-        },
-      });
-      setUserProf(data.profilepicture);
-      setProName(data.username);
-    };
-    fetchUser();
-  }, [post.userId]);
+    fetchUser(post.userId);
+  }, [fetchUser, post.userId]);
 
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id));
@@ -37,7 +27,7 @@ const CardItem = ({ post }) => {
 
   const likeHandler = () => {
     try {
-      axios.put(HEROKU_URL + "/posts/" + post._id + "/like", {
+      BASE_URL.put("/posts/" + post._id + "/like", {
         userId: currentUser._id,
       });
     } catch (err) {}
@@ -48,11 +38,11 @@ const CardItem = ({ post }) => {
   return (
     <div className="main-container">
       <div className="profile-container">
-        <Link to={`/profile/${ProName}`} className="img-name-box">
+        <Link to={`/profile/${userInfo?.username}`} className="img-name-box">
           <div>
             <img
               className="profile-img"
-              src={userprof ? userprof : NoPic}
+              src={userInfo?.profilepicture ? userInfo?.profilepicture : NoPic}
               alt=""
             />
           </div>
@@ -98,4 +88,10 @@ const CardItem = ({ post }) => {
   );
 };
 
-export default CardItem;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    userInfo: state.user.find((user) => user._id === ownProps.post.userId),
+  };
+};
+
+export default connect(mapStateToProps, { fetchUser })(CardItem);

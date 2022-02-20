@@ -10,15 +10,13 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { Context } from "../../context/Context";
 import Menubar from "../sidebar/menubar/Menubar";
 import NoPic from "../../noAvatar.png";
-import axios from "axios";
-import { HEROKU_URL } from "../../Heroku_Url";
+import BASE_URL from "../../api/URL";
 
 export default function Navbar() {
   const [profilebtn, setProfilebtn] = useState(false);
   const [navmenu, setNavmenu] = useState(false);
   const [search, setSearchbox] = useState(false);
   const [searchterm, setSearchterm] = useState("");
-  // const [debouncedterm, setDebouncedterm] = useState("");
   const [searchdata, setSearchdata] = useState([]);
 
   const searchboxtoggle = () => {
@@ -33,14 +31,10 @@ export default function Navbar() {
     setProfilebtn(!profilebtn);
   };
 
-  // useEffect(() => {
-  //   setDebouncedterm(searchterm);
-  // }, [searchterm]);
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       const fetchUser = async () => {
-        const { data } = await axios.get(HEROKU_URL + "/search", {
+        const { data } = await BASE_URL("/search", {
           params: {
             username: searchterm,
           },

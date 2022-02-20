@@ -33,7 +33,7 @@ export default function Login() {
         data && window.location.replace("/");
       })
       .catch((error) => {
-        setError({ error: true, message: error.data });
+        setError({ error: true, message: "Something went wrong!" });
         dispatch({ type: "LOGIN_FAILURE" });
       });
   };

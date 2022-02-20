@@ -10,7 +10,9 @@ function Cards({ posts, NoLink }) {
       {posts
         .slice(0)
         .reverse()
-        .map((p) => (p === null ? "" : <CardItem post={p} key={p._id} />))}
+        .map((p, index) =>
+          p === null ? "" : <CardItem post={p} key={index} />
+        )}
     </div>
   );
 }
