@@ -70,7 +70,7 @@ export default function SinglePost() {
       await BASE_URL.delete(`/posts/${id}`, {
         data: { username: user.username },
       });
-      history.push("/" + id);
+      history.push("/");
     } catch (err) {}
   };
 

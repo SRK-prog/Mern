@@ -34,7 +34,7 @@ export default function Navbar() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       const fetchUser = async () => {
-        const { data } = await BASE_URL("/search", {
+        const { data } = await BASE_URL.get("/search", {
           params: {
             username: searchterm,
           },
@@ -81,7 +81,6 @@ export default function Navbar() {
               placeholder="Search..."
               className="searchInput"
               value={searchterm}
-              // onClick={searchhandle}
               onChange={(e) => {
                 setSearchterm(e.target.value.toLowerCase());
               }}
@@ -105,10 +104,9 @@ export default function Navbar() {
           <div className="topbarLinks">
             {user ? (
               <>
-                {" "}
                 <Link to="/write" className="styleLink display_none">
                   Create Post
-                </Link>{" "}
+                </Link>
               </>
             ) : (
               <>
