@@ -47,7 +47,7 @@ const CardItem = ({ post, fetchUser, userInfo }) => {
             />
           </div>
           <div className="NameDate">
-            <div className="postUserdate">{post.username}</div>
+            <div className="postUserdate">{userInfo?.username}</div>
             <div className="postDate">{format(post.createdAt)}</div>
           </div>
         </Link>
