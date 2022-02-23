@@ -1,6 +1,5 @@
 import "./Nonuser.css";
 import Nonusercard from "./Nonusercard";
-import { Link } from "react-router-dom";
 
 function Nonuser({ posts }) {
   return (
